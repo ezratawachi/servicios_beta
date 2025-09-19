@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Servicios - Ezra Tawachi</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .info-btn {
+        background: #3b82f6;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        margin-left: 8px;
+        transition: transform 0.2s ease, background 0.3s ease;
+      }
+      .info-btn:hover {
+        background: #2563eb;
+        transform: scale(1.1);
+      }
+      .services-gallery {
+        padding: 32px 0;
+        background: rgba(15, 23, 42, 0.5);
+      }
+      .services-gallery .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        column-gap: 20px;
+        row-gap: 40px;
+        align-items: stretch;
+      }
+      .gallery-card {
+        background: var(--surface);
+        padding: 24px;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid var(--border);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        height: 240px;
+      }
+      .gallery-card.filler {
+        background: rgba(30, 41, 59, 0.6);
+        border: 1px dashed var(--border);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        grid-column: span 2;
+        min-height: 160px;
+      }
+      @media (min-width: 800px) {
+        .gallery-card.filler {
+          grid-column: span 3;
+          min-height: 200px;
+        }
+      }
+      .quote-simple {
+        font-family: "Georgia", serif;
+        font-size: 1.4rem;
+        font-style: italic;
+        font-weight: 400;
+        color: var(--text);
+        padding: 40px;
+        line-height: 1.6;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      .quote-simple span {
+        display: block;
+        margin-top: 10px;
+        font-size: 1rem;
+        font-style: normal;
+        opacity: 0.85;
+      }
+      .gallery-card h3 {
+        font-size: 0.95rem;
+        min-height: 48px; /* ensures consistent space for 1-2 line titles */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .gallery-card .price {
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+      .gallery-card .cta {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .gallery-card .btn {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+      }
+      @keyframes animatedGradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      @keyframes fadeUp {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      :root {
+        --bg: #0f111a;
+        --surface: #1e293b;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --border: #334155;
+        --accent-start: #3b82f6;
+        --accent-end: #3b82f6;
+        --accent-secondary-start: #10b981;
+        --accent-secondary-end: #10b981;
+        --shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+        --radius: 14px;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        padding: 64px 0 0 0; /* accounts for navbar height */
+        background: var(--bg);
+        color: var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        scroll-behavior: smooth;
+      }
+      .container {
+        max-width: 1024px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .hero {
+        padding: 56px 0;
+        background: linear-gradient(270deg, #181a20, #22243a, #181a20, #23243a);
+        background-size: 800% 800%;
+        animation: animatedGradient 30s ease infinite;
+        border-bottom: 1px solid var(--border);
+        text-align: center;
+      }
+      .hero h1 {
+        margin: 0 0 10px 0;
+        font-size: 2rem;
+        letter-spacing: -0.02em;
+        background: linear-gradient(90deg, #3b82f6, #10b981);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        user-select: none;
+      }
+      .hero h1 span {
+        background: linear-gradient(90deg, #10b981, #3b82f6);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        font-weight: 900;
+      }
+      .hero p {
+        margin: 0 auto;
+        max-width: 720px;
+        color: var(--muted);
+      }
+      .section-subtitle {
+        text-align: center;
+        margin-top: -20px;
+        margin-bottom: 40px;
+        color: var(--muted);
+      }
+      .services {
+        padding: 48px 0 80px;
+      }
+      .services-grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: 1fr;
+      }
+      .service-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 28px;
+        backdrop-filter: blur(12px);
+        /* animation: float 6s ease-in-out infinite; */ /* Float animation removed */
+        opacity: 0;
+        transform: translateY(20px);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        position: relative;
+      }
+      .add-icon {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease, background 0.3s ease;
+      }
+      .add-icon:hover {
+        background: #1d4ed8;
+        transform: scale(1.1);
+      }
+      .service-card.reveal {
+        animation: fadeUp 0.6s forwards;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .service-card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 0 12px rgba(0, 240, 255, 0.6),
+          0 0 20px rgba(106, 13, 173, 0.4);
+        transition: all 0.3s ease;
+      }
+      .service-card h2 {
+        margin-top: 0;
+        margin-bottom: 6px;
+        letter-spacing: -0.01em;
+        font-size: 1.35rem;
+        color: #d0d0ff;
+        /* text-shadow removed for calmer look */
+      }
+      .price {
+        font-weight: 800;
+        font-size: 1.25rem;
+        margin: 8px 0 16px;
+        color: #00f0ff;
+        text-shadow: none;
+      }
+      .price .optional {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-left: 6px;
+      }
+      .service-card h3 {
+        margin-top: 22px;
+        margin-bottom: 8px;
+        color: #a0a0c0;
+        text-shadow: 0 0 3px #004d40;
+      }
+      .service-card p {
+        margin: 8px 0;
+        color: #cfd8ff;
+      }
+      .service-card ul,
+      .service-card ol {
+        padding-left: 1.25rem;
+        color: #cfd8ff;
+      }
+      .btn {
+        appearance: none;
+        border: 2px solid transparent;
+        cursor: pointer;
+        color: #fff;
+        font-weight: 700;
+        padding: 12px 18px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        transition: transform 0.15s ease, box-shadow 0.3s ease,
+          opacity 0.2s ease, border-color 0.3s ease, filter 0.2s;
+        background-size: 200% 200%;
+      }
+      .btn.primary {
+        background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+        border-color: #2563eb;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      }
+      .btn.secondary {
+        background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+        border-color: #059669;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      }
+      .btn:hover {
+        transform: scale(1.03);
+        filter: brightness(1.1);
+        border-color: #00f0ff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+      }
+      .btn.primary:hover {
+        /* No heavy glow */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+      }
+      .btn.secondary:hover {
+        /* No heavy glow */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+      }
+      .btn:active {
+        transform: scale(1);
+        opacity: 0.92;
+      }
+      .cart-link {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0; /* icon-only button */
+      }
+      .badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        width: 18px;
+        height: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #3b82f6;
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 800;
+        border-radius: 50%;
+        box-shadow: 0 0 6px rgba(59, 130, 246, 0.8);
+        line-height: 1;
+      }
+      .service-card .cta {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 24px;
+      }
+      /* Simple toast */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%) translateY(20px);
+        background: linear-gradient(45deg, #2563eb, #10b981);
+        color: #111827;
+        padding: 12px 16px;
+        border-radius: 10px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 9999;
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      @media (min-width: 800px) {
+        .hero h1 {
+          font-size: 2.25rem;
+        }
+        .service-card {
+          padding: 36px;
+        }
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 5px;
+        background: rgba(15, 23, 42, 0.9);
+        border-bottom: 1px solid var(--border);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        overflow: visible;
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: 4px; /* minimal separation between icons */
+      }
+      .nav-links li {
+        margin: 0; /* remove left margin, spacing handled by gap */
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+      .nav-links a:hover {
+        color: var(--accent-end);
+        text-shadow: 0 0 8px #3b82f6;
+      }
+      .nav-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        color: var(--text);
+        background: rgba(59, 130, 246, 0.08); /* subtle background always */
+        transition: transform 0.2s ease, background 0.3s ease;
+      }
+      .nav-icon:hover {
+        background: rgba(59, 130, 246, 0.2); /* darker on hover */
+        transform: scale(1.05);
+      }
+      .nav-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--text);
+        text-decoration: none;
+        text-shadow: 0 0 8px #3b82f6;
+      }
+      .section-title {
+        text-align: center;
+        font-size: 1.75rem;
+        margin-bottom: 32px;
+        letter-spacing: -0.02em;
+        color: #d0d0ff;
+        text-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
+      }
+      .services-gallery .section-title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        text-shadow: none;
+      }
+      .contact-section {
+        padding: 60px 0;
+        background: rgba(30, 41, 59, 0.4);
+        text-align: center;
+      }
+      .footer {
+        padding: 32px 0;
+        text-align: center;
+        font-size: 0.9rem;
+        color: var(--muted);
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(8px);
+      }
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(12px);
+        animation: fadeIn 0.4s ease forwards;
+      }
+      .modal-content {
+        background: rgba(20, 20, 40, 0.9);
+        margin: 10% auto;
+        padding: 20px 30px;
+        border-radius: 16px;
+        max-width: 480px;
+        color: #cfd8ff;
+        box-shadow: 0 0 20px #3b82f6, 0 0 40px #10b981;
+        position: relative;
+      }
+      #modal-close {
+        color: #3b82f6;
+        position: absolute;
+        top: 12px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: 700;
+        cursor: pointer;
+        user-select: none;
+        transition: color 0.3s ease;
+        text-shadow: 0 0 12px #10b981;
+      }
+      #modal-close:hover {
+        color: #10b981;
+        text-shadow: 0 0 12px #10b981;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header>
+      <nav class="navbar">
+        <a href="index.html" class="logo">Ezra Tawachi</a>
+        <div
+          style="
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-right: 16px;
+          "
+        >
+          <ul
+            class="nav-links"
+            style="
+              gap: 6px;
+              margin: 0;
+              padding: 0;
+              list-style: none;
+              display: flex;
+            "
+          >
+            <li>
+              <a
+                href="index.html"
+                class="nav-icon"
+                aria-label="Inicio"
+                title="Inicio"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M3 10.5L12 3l9 7.5" />
+                  <path d="M5.25 10.5V21h13.5V10.5" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#contact"
+                class="nav-icon"
+                aria-label="Contacto"
+                title="Contacto"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="5" width="18" height="14" rx="2" ry="2" />
+                  <path d="M3 7l9 6 9-6" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                href="cart.html"
+                class="nav-icon cart-link"
+                aria-label="Carrito"
+                title="Carrito"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M6 7h12l-1 12H7L6 7z" />
+                  <path d="M9 7a3 3 0 0 1 6 0" />
+                </svg>
+                <span id="cart-count" class="badge">0</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="container">
+        <h1>Servicios <span>Empresariales</span></h1>
+        <p class="section-subtitle">
+          Soluciones digitales listas para optimizar tus procesos y ahorrar
+          tiempo
+        </p>
+      </div>
+    </section>
+
+    <!-- SERVICES GALLERY -->
+    <section class="services-gallery">
+      <div class="container">
+        <h2 class="section-title">Vista Rápida de Servicios</h2>
+        <div class="gallery-grid">
+          <div class="gallery-card">
+            <h3>Automatización de Reportes</h3>
+            <p class="price">USD $420</p>
+            <button
+              class="btn primary"
+              type="button"
+              data-name="Automatización de Reportes Financieros (ERP/POS)"
+              data-price="420"
+            >
+              Añadir al carrito
+            </button>
+            <a href="#servicio1" class="btn secondary">Ver detalles</a>
+          </div>
+          <div class="gallery-card">
+            <h3>Integración E‑commerce → WhatsApp</h3>
+            <p class="price">USD $220</p>
+            <button
+              class="btn primary"
+              type="button"
+              data-name="Integración E‑commerce con WhatsApp"
+              data-price="220"
+            >
+              Añadir al carrito
+            </button>
+            <a href="#servicio2" class="btn secondary">Ver detalles</a>
+          </div>
+          <div class="gallery-card">
+            <h3>Cuentas por Cobrar con Alertas</h3>
+            <p class="price">USD $260</p>
+            <button
+              class="btn primary"
+              type="button"
+              data-name="Tablero de Cuentas por Cobrar con Alertas"
+              data-price="260"
+            >
+              Añadir al carrito
+            </button>
+            <a href="#servicio3" class="btn secondary">Ver detalles</a>
+          </div>
+          <div class="gallery-card">
+            <h3>Chatbot en WhatsApp</h3>
+            <p class="price">USD $320</p>
+            <button
+              class="btn primary"
+              type="button"
+              data-name="Chatbot en WhatsApp"
+              data-price="320"
+            >
+              Añadir al carrito
+            </button>
+            <a href="#servicio4" class="btn secondary">Ver detalles</a>
+          </div>
+          <div class="gallery-card">
+            <h3>Research Plugins Shopify/Woo</h3>
+            <p class="price">USD $200</p>
+            <button
+              class="btn primary"
+              type="button"
+              data-name="Investigación de Plugins & Apps (Shopify / WooCommerce)"
+              data-price="200"
+            >
+              Añadir al carrito
+            </button>
+            <a href="#servicio5" class="btn secondary">Ver detalles</a>
+          </div>
+          <div class="gallery-card filler">
+            <p class="quote-simple">
+              ⚙️ “La automatización aplicada a un proceso eficiente aumentará la
+              eficiencia. La automatización aplicada a un proceso ineficiente
+              aumentará la ineficiencia.”
+              <button class="info-btn" id="quote-info">?</button>
+              <br /><span>– Bill Gates</span>
+            </p>
+          </div>
+          <div id="quote-modal" class="modal">
+            <div class="modal-content">
+              <span id="quote-modal-close">&times;</span>
+              <h2>Explicación del Dicho</h2>
+              <p>
+                Bill Gates nos recuerda que la automatización no es mágica: si
+                un proceso ya es eficiente, automatizarlo lo hará aún más
+                poderoso. Pero si el proceso está mal diseñado, la
+                automatización solo multiplicará los errores. La lección es
+                primero optimizar los procesos y luego aplicar tecnología para
+                escalar.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT CARD -->
+    <section class="services">
+      <div class="container">
+        <h2 class="section-title">Detalles Completos</h2>
+        <p class="section-subtitle">
+          Elige el servicio que se adapte a tu empresa. Procesos más simples,
+          datos más claros.
+        </p>
+        <div class="services-grid">
+          <!-- Servicio 1: Automatización de Reportes Financieros (ERP/POS) -->
+          <div class="service-card" id="servicio1">
+            <button
+              class="add-icon"
+              type="button"
+              data-name="Automatización de Reportes Financieros (ERP/POS)"
+              data-price="420"
+              aria-label="Agregar al carrito"
+            >
+              ＋
+            </button>
+            <h2>Automatización de Reportes Financieros (ERP/POS)</h2>
+            <h3>🚨 Problema real</h3>
+            <p>
+              En muchas empresas, aunque ya cuentan con ERP o POS, los reportes
+              financieros y de gestión siguen siendo procesos manuales. Cada fin
+              de mes, semana o trimestre, alguien debe exportar ventas y gastos,
+              limpiar datos en Excel y armar tablas dinámicas. Esto consume
+              horas valiosas y aumenta el riesgo de errores. Ejemplos comunes:
+              cierres contables mensuales, reportes semanales de ventas por
+              tienda, informes de rotación de inventario, reportes de desempeño
+              por canal de ventas o conciliaciones de e‑commerce en Shopify y
+              WooCommerce.
+            </p>
+            <h3>⚡ Cómo lo hago</h3>
+            <ol>
+              <li>
+                Evaluación de integraciones directas a Google Sheets (conectores
+                nativos o add‑ons disponibles para tu sistema, incluyendo
+                Shopify y WooCommerce).
+              </li>
+              <li>
+                Si es viable, configuración y formateo dentro del ERP usando SQL
+                o reportes personalizados.
+              </li>
+              <li>
+                En caso contrario, trabajo con exportaciones estándar
+                (CSV/Excel) para diseñar un archivo maestro.
+              </li>
+              <li>
+                Automatización de limpieza, consolidación de datos, generación
+                de KPIs clave (ventas por canal, margen, top productos) y
+                creación de reportes en PDF listos para gerencia en un solo
+                clic.
+              </li>
+            </ol>
+            <h3>📑 Qué entrego</h3>
+            <ul>
+              <li>
+                Archivo maestro (Excel o Google Sheets) conectado a tu ERP/POS
+                mediante exportación.
+              </li>
+              <li>
+                Plantilla PDF “Reporte Gerencial” lista para enviar a dirección.
+              </li>
+              <li>
+                Mini-manual (3–5 páginas) y video corto explicativo para tu
+                equipo.
+              </li>
+            </ul>
+            <h3>🔧 Qué necesito</h3>
+            <p>
+              Exportación de prueba (CSV/Excel) y diccionario de columnas de tu
+              ERP/POS.
+            </p>
+            <h3>⏱️ Tiempo de entrega</h3>
+            <p>5 días hábiles.</p>
+            <h3>📌 Límites</h3>
+            <p>
+              1 fuente de ventas, hasta 12 meses de histórico, sin integración
+              API directa.
+            </p>
+          </div>
+          <!-- Servicio 2: Integración E-commerce con WhatsApp -->
+          <div class="service-card" id="servicio2">
+            <button
+              class="add-icon"
+              type="button"
+              data-name="Integración E‑commerce con WhatsApp"
+              data-price="220"
+              aria-label="Agregar al carrito"
+            >
+              ＋
+            </button>
+            <h2>Integración E-commerce con WhatsApp</h2>
+            <h3>🚨 Problema real</h3>
+            <p>
+              Muchas tiendas online reciben pedidos en
+              <strong>Shopify</strong> o <strong>WooCommerce</strong>, pero la
+              comunicación con clientes o con el equipo interno sigue siendo
+              manual. Esto genera demoras en notificaciones importantes: pedidos
+              nuevos, pagos recibidos o envíos listos.
+            </p>
+            <h3>⚡ Cómo lo hago</h3>
+            <ol>
+              <li>
+                Configuro la conexión entre tu tienda online y un canal de
+                WhatsApp de tu empresa.
+              </li>
+              <li>
+                Defino los eventos clave: ejemplo, “nuevo pedido confirmado”,
+                “pago recibido”, “envío listo”.
+              </li>
+              <li>
+                Diseño mensajes automáticos claros y profesionales para cada
+                evento.
+              </li>
+              <li>
+                Pruebo el flujo y entreno a tu equipo para usarlo de forma
+                diaria sin esfuerzo.
+              </li>
+            </ol>
+            <h3>📑 Qué entrego</h3>
+            <ul>
+              <li>
+                Flujo de integración activo entre Shopify/WooCommerce y
+                WhatsApp.
+              </li>
+              <li>
+                Mensajes automáticos pre‑diseñados para 2‑3 eventos críticos.
+              </li>
+              <li>Guía rápida de uso y soporte inicial.</li>
+            </ul>
+            <h3>🔧 Qué necesito</h3>
+            <p>
+              Acceso de administrador a la tienda online (Shopify o WooCommerce)
+              y una cuenta de WhatsApp Business.
+            </p>
+            <h3>⏱️ Tiempo de entrega</h3>
+            <p>5‑7 días hábiles.</p>
+            <h3>📌 Límites</h3>
+            <p>
+              Hasta 3 eventos automáticos configurados. No incluye gestión de
+              múltiples números de WhatsApp ni soporte a gran escala.
+            </p>
+            <p>
+              <em>Nota:</em> Este servicio requiere que la empresa cuente con un
+              sistema de integración de WhatsApp Business, el cual puede tener
+              un costo adicional según el proveedor. Además, la mayoría de los
+              sistemas de integración cobran alrededor de
+              <strong>USD $0.02 por mensaje de WhatsApp</strong> enviado.
+            </p>
+          </div>
+          <!-- Servicio 3: Tablero de Cuentas por Cobrar con Alertas -->
+          <div class="service-card" id="servicio3">
+            <button
+              class="add-icon"
+              type="button"
+              data-name="Tablero de Cuentas por Cobrar con Alertas"
+              data-price="260"
+              aria-label="Agregar al carrito"
+            >
+              ＋
+            </button>
+            <h2>Tablero de Cuentas por Cobrar con Alertas</h2>
+            <h3>🚨 Problema real</h3>
+            <p>
+              Muchas empresas generan el reporte de cuentas por cobrar desde su
+              ERP o sistema contable, pero la información se revisa tarde y la
+              cobranza llega con retraso. No hay alertas claras ni un tablero
+              centralizado para priorizar clientes.
+            </p>
+            <h3>⚡ Cómo lo hago</h3>
+            <ol>
+              <li>
+                Conecto la exportación de cuentas por cobrar (aging report) a
+                Google Sheets.
+              </li>
+              <li>
+                Diseño un tablero con clasificaciones: 0‑30, 31‑60, 61‑90, 90+
+                días.
+              </li>
+              <li>
+                Configuro alertas automáticas por correo para clientes vencidos
+                cada semana.
+              </li>
+              <li>
+                Incluyo plantillas de email de cobranza listas para enviar.
+              </li>
+            </ol>
+            <h3>📑 Qué entrego</h3>
+            <ul>
+              <li>Tablero dinámico en Google Sheets.</li>
+              <li>Alertas semanales automáticas al equipo.</li>
+              <li>Plantillas de comunicación profesional para cobranza.</li>
+            </ul>
+            <h3>🔧 Qué necesito</h3>
+            <p>
+              Un export del reporte de antigüedad de saldos desde tu ERP o
+              sistema contable.
+            </p>
+            <h3>⏱️ Tiempo de entrega</h3>
+            <p>4‑5 días hábiles.</p>
+            <h3>📌 Límites</h3>
+            <p>
+              Hasta 5,000 facturas históricas. No incluye integración API
+              directa.
+            </p>
+          </div>
+          <!-- Servicio 4: Chatbot en WhatsApp -->
+          <div class="service-card" id="servicio4">
+            <button
+              class="add-icon"
+              type="button"
+              data-name="Chatbot en WhatsApp"
+              data-price="320"
+              aria-label="Agregar al carrito"
+            >
+              ＋
+            </button>
+            <h2>Chatbot en WhatsApp</h2>
+            <h3>🚨 Problema real</h3>
+            <p>
+              Cada vez más clientes prefieren comunicarse por WhatsApp, pero
+              muchas empresas no logran responder rápido ni de forma organizada.
+              Se pierden ventas, consultas quedan sin contestar y el equipo se
+              satura con tareas repetitivas.
+            </p>
+            <h3>⚡ Cómo lo hago</h3>
+            <ol>
+              <li>
+                Configuro un chatbot en WhatsApp Business con flujos claros y
+                profesionales.
+              </li>
+              <li>
+                Defino respuestas automáticas para consultas frecuentes:
+                horarios, catálogo, estado de pedidos, soporte, etc.
+              </li>
+              <li>
+                Integro con sistemas básicos de la empresa (ej. hojas de
+                cálculo, e‑commerce o CRM simple) para personalizar respuestas.
+              </li>
+              <li>
+                Incluyo opción de escalamiento a un agente humano cuando el
+                cliente lo requiera.
+              </li>
+            </ol>
+            <h3>📑 Qué entrego</h3>
+            <ul>
+              <li>Chatbot en WhatsApp funcional y adaptado a tu negocio.</li>
+              <li>Flujos automáticos configurados para atención inmediata.</li>
+              <li>Guía rápida de uso y soporte inicial.</li>
+            </ul>
+            <h3>🔧 Qué necesito</h3>
+            <p>
+              Cuenta de WhatsApp Business y, en caso de integrar datos, acceso
+              al sistema correspondiente (Google Sheets, e‑commerce, CRM).
+            </p>
+            <h3>⏱️ Tiempo de entrega</h3>
+            <p>7‑10 días hábiles.</p>
+            <h3>📌 Límites</h3>
+            <p>
+              Chatbot básico con hasta 5 flujos principales de conversación. No
+              incluye desarrollo avanzado de IA ni integraciones complejas a
+              medida.
+            </p>
+            <p>
+              <em>Nota:</em> La mayoría de los sistemas de integración de
+              WhatsApp Business cobran un costo adicional por mensaje enviado
+              (aprox. USD $0.02).
+            </p>
+          </div>
+          <!-- Servicio 5: Investigación de Plugins & Apps (Shopify / WooCommerce) -->
+          <div class="service-card" id="servicio5">
+            <button
+              class="add-icon"
+              type="button"
+              data-name="Investigación de Plugins & Apps (Shopify / WooCommerce)"
+              data-price="200"
+              aria-label="Agregar al carrito"
+            >
+              ＋
+            </button>
+            <h2>Investigación de Plugins & Apps (Shopify / WooCommerce)</h2>
+            <h3>🚨 Problema real</h3>
+            <p>
+              Las tiendas en línea dependen de plugins y apps para crecer, pero
+              con tantas opciones disponibles es difícil saber cuáles son
+              seguras, eficientes y realmente útiles. Muchos negocios terminan
+              pagando por herramientas que no resuelven sus necesidades o que
+              vuelven lenta la tienda.
+            </p>
+            <h3>⚡ Cómo lo hago</h3>
+            <ol>
+              <li>
+                Analizo los objetivos de tu negocio (ej. aumentar conversiones,
+                mejorar reseñas, optimizar checkout, fidelización).
+              </li>
+              <li>
+                Investigo y comparo las mejores apps y plugins para Shopify o
+                WooCommerce según tu caso.
+              </li>
+              <li>
+                Evalúo reputación, soporte, precio, compatibilidad y facilidad
+                de uso.
+              </li>
+              <li>
+                Entrego un reporte claro con las 3–5 mejores opciones y mi
+                recomendación personalizada.
+              </li>
+            </ol>
+            <h3>📑 Qué entrego</h3>
+            <ul>
+              <li>Reporte en PDF con análisis de plugins/apps recomendados.</li>
+              <li>Tabla comparativa costo vs beneficio vs facilidad de uso.</li>
+              <li>Recomendación de instalación para el plugin más adecuado.</li>
+            </ul>
+            <h3>🔧 Qué necesito</h3>
+            <p>
+              Que me indiques tus objetivos prioritarios (ej. más ventas,
+              marketing, envíos, reseñas, velocidad de la tienda).
+            </p>
+            <h3>⏱️ Tiempo de entrega</h3>
+            <p>3–4 días hábiles.</p>
+            <h3>📌 Límites</h3>
+            <p>
+              Análisis hasta 5 necesidades principales por proyecto. No incluye
+              instalación de plugins pagos ni configuraciones avanzadas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span id="modal-close">&times;</span>
+        <h2>Detalles del Servicio</h2>
+        <p>
+          Aquí encontrarás más información técnica y ejemplos de
+          implementación...
+        </p>
+      </div>
+    </div>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        <h2 class="section-title">Contáctame</h2>
+        <p class="section-subtitle">
+          ¿Tienes dudas o quieres más información? Escríbeme.
+        </p>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin-top: 24px;
+          "
+        >
+          <a href="mailto:ezratawachi@gmail.com" class="btn secondary"
+            >✉️ Enviar un correo</a
+          >
+          <a
+            href="https://wa.me/50764931573"
+            target="_blank"
+            class="btn primary"
+            >💬 Escríbeme por WhatsApp</a
+          >
+        </div>
+      </div>
+    </section>
+    <!-- FOOTER -->
+    <footer class="footer" id="contact-footer">
+      <div class="container">
+        <p>
+          © 2025 Ezra Tawachi. Impulsando eficiencia digital para empresas en
+          Panamá.
+        </p>
+      </div>
+    </footer>
+    <div id="toast" class="toast" aria-live="polite"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const learnMoreBtn = document.getElementById("learn-more-btn");
+        const cartCountEl = document.getElementById("cart-count");
+        const toastEl = document.getElementById("toast");
+        const modal = document.getElementById("modal");
+        const modalClose = document.getElementById("modal-close");
+
+        function getCart() {
+          try {
+            return JSON.parse(localStorage.getItem("cart")) || [];
+          } catch (e) {
+            return [];
+          }
+        }
+        function setCart(c) {
+          localStorage.setItem("cart", JSON.stringify(c));
+        }
+        function updateBadge() {
+          if (!cartCountEl) return;
+          const cart = getCart();
+          const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+          cartCountEl.textContent = totalQty;
+        }
+        function showToast(msg) {
+          if (!toastEl) return;
+          toastEl.textContent = msg;
+          toastEl.classList.add("show");
+          setTimeout(() => toastEl.classList.remove("show"), 1800);
+        }
+
+        // Initialize badge on load
+        updateBadge();
+
+        // Add-to-cart handler for all add-icon buttons
+        document.querySelectorAll(".add-icon").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const name = btn.dataset.name;
+            const price = parseFloat(btn.dataset.price);
+            if (!name || !price) return;
+            const cart = getCart();
+            const existing = cart.find(
+              (item) => item.name === name && item.price === price
+            );
+            if (existing) {
+              existing.qty += 1;
+            } else {
+              cart.push({ name, price, qty: 1 });
+            }
+            setCart(cart);
+            updateBadge();
+            showToast("Servicio agregado al carrito");
+          });
+        });
+
+        // Add-to-cart handler for gallery buttons
+        document
+          .querySelectorAll(".gallery-card .btn.primary")
+          .forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const name = btn.dataset.name;
+              const price = parseFloat(btn.dataset.price);
+              if (!name || !price) return;
+              const cart = getCart();
+              const existing = cart.find(
+                (item) => item.name === name && item.price === price
+              );
+              if (existing) {
+                existing.qty += 1;
+              } else {
+                cart.push({ name, price, qty: 1 });
+              }
+              setCart(cart);
+              updateBadge();
+              showToast("Servicio agregado al carrito");
+            });
+          });
+
+        // Learn more button opens modal
+        learnMoreBtn?.addEventListener("click", () => {
+          if (!modal) return;
+          modal.style.display = "block";
+          document.body.style.overflow = "hidden";
+        });
+
+        // Close modal on X click
+        modalClose?.addEventListener("click", () => {
+          modal.style.display = "none";
+          document.body.style.overflow = "";
+        });
+
+        // Close modal on outside click
+        window.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = "";
+          }
+        });
+
+        // Scroll reveal for service cards
+        const serviceCards = document.querySelectorAll(".service-card");
+        function revealOnScroll() {
+          const windowHeight = window.innerHeight;
+          serviceCards.forEach((card) => {
+            const cardTop = card.getBoundingClientRect().top;
+            if (cardTop < windowHeight - 100) {
+              card.classList.add("reveal");
+            }
+          });
+        }
+        revealOnScroll();
+        window.addEventListener("scroll", revealOnScroll);
+
+        // Smooth scroll for nav links
+        document.querySelectorAll(".nav-links a").forEach((link) => {
+          link.addEventListener("click", (e) => {
+            const href = link.getAttribute("href");
+            if (href && href.startsWith("#")) {
+              e.preventDefault();
+              const target = document.querySelector(href);
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+              }
+            }
+          });
+        });
+
+        // Info tooltip/modal for Bill Gates quote
+        const quoteBtn = document.getElementById("quote-info");
+        const quoteModal = document.getElementById("quote-modal");
+        const quoteModalClose = document.getElementById("quote-modal-close");
+
+        quoteBtn?.addEventListener("click", () => {
+          quoteModal.style.display = "block";
+          document.body.style.overflow = "hidden";
+        });
+
+        quoteModalClose?.addEventListener("click", () => {
+          quoteModal.style.display = "none";
+          document.body.style.overflow = "";
+        });
+
+        window.addEventListener("click", (e) => {
+          if (e.target === quoteModal) {
+            quoteModal.style.display = "none";
+            document.body.style.overflow = "";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

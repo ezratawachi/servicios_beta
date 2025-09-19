@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tu Carrito - Ezra Tawachi</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: #0f111a;
+        color: #e5e7eb;
+        font-family: ui-sans-serif, system-ui;
+      }
+      .container {
+        max-width: 1024px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .section-title {
+        font-size: 1.75rem;
+        margin-bottom: 24px;
+        text-align: center;
+      }
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: #1e293b;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      .cart-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      }
+      .cart-item span {
+        font-size: 1rem;
+      }
+      .btn {
+        appearance: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+      }
+      .btn.primary {
+        background: linear-gradient(90deg, #2563eb, #3b82f6);
+        color: #fff;
+      }
+      .btn.secondary {
+        background: linear-gradient(90deg, #059669, #10b981);
+        color: #fff;
+      }
+      .btn.small {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
+      #cart-total {
+        margin-top: 16px;
+        font-weight: 700;
+        text-align: right;
+      }
+      form {
+        margin-top: 24px;
+        background: #1e293b;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      }
+      form label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+      }
+      form input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: none;
+        margin-bottom: 14px;
+        background: #334155;
+        color: #e5e7eb;
+        transition: border 0.2s, background 0.2s;
+      }
+      form input:focus {
+        outline: none;
+        background: #475569;
+        border: 1px solid #3b82f6;
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 24px;
+        background: #1e293b;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .logo {
+        font-weight: 700;
+        color: #e5e7eb;
+        text-decoration: none;
+        font-size: 1.1rem;
+      }
+      .nav-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 20px;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #e5e7eb;
+        font-weight: 500;
+      }
+      .nav-links a:hover {
+        color: #3b82f6;
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #3b82f6;
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s, transform 0.3s;
+        z-index: 2000;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-10px);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <a href="index.html" class="logo">Ezra Tawachi</a>
+        <ul class="nav-links">
+          <li><a href="index.html">Servicios</a></li>
+          <li><a href="cart.html" class="active">Carrito</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <h2 class="section-title">Tu Carrito</h2>
+      <div id="cart-items"></div>
+      <div id="cart-total"></div>
+
+      <h3 style="margin-top: 32px">Finalizar Pedido</h3>
+      <form id="checkout-form">
+        <label for="name">Nombre completo</label>
+        <input type="text" id="name" required />
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+        <label for="company">Empresa</label>
+        <input type="text" id="company" />
+        <button type="submit" class="btn primary">Enviar Pedido</button>
+      </form>
+      <div id="toast" class="toast"></div>
+    </main>
+
+    <footer>
+      <div class="container" style="text-align: center; margin-top: 40px">
+        <p>
+          © 2025 Ezra Tawachi. Impulsando eficiencia digital para empresas en
+          Panamá.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      const EMAIL_ENDPOINT =
+        "https://script.google.com/macros/s/AKfycbxsveSHW1PjbIKBQv4apyYQhaWWe-JnL6I1f2Kf4yOHLWFlTgzLl67Vgp8qZAOhLQHb/exec";
+      function getCart() {
+        try {
+          return JSON.parse(localStorage.getItem("cart")) || [];
+        } catch (e) {
+          return [];
+        }
+      }
+      function setCart(c) {
+        localStorage.setItem("cart", JSON.stringify(c));
+      }
+      function renderCart() {
+        const itemsContainer = document.getElementById("cart-items");
+        const totalEl = document.getElementById("cart-total");
+        const cart = getCart();
+        itemsContainer.innerHTML = "";
+        let total = 0;
+        if (cart.length === 0) {
+          itemsContainer.innerHTML = "<p>No hay servicios en tu carrito.</p>";
+        } else {
+          cart.forEach((item, idx) => {
+            total += item.price * item.qty;
+            const div = document.createElement("div");
+            div.className = "cart-item";
+            div.innerHTML = `<span><strong>${item.name}</strong> — USD $${item.price}</span>
+            <button class="btn secondary small" data-idx="${idx}">Eliminar</button>`;
+            itemsContainer.appendChild(div);
+          });
+        }
+        totalEl.textContent = "Total: USD $" + total.toFixed(2);
+        itemsContainer.querySelectorAll("button[data-idx]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const i = parseInt(btn.getAttribute("data-idx"));
+            const cart = getCart();
+            cart.splice(i, 1);
+            setCart(cart);
+            renderCart();
+          });
+        });
+      }
+      function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2000);
+      }
+      document
+        .getElementById("checkout-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const form = e.target;
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const cart = getCart();
+          if (!cart.length) {
+            showToast("Tu carrito está vacío.");
+            return;
+          }
+
+          // Build payload
+          const name = document.getElementById("name").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const company = document.getElementById("company").value.trim();
+          const total = cart.reduce((s, it) => s + it.price * (it.qty || 1), 0);
+
+          const payload = {
+            name,
+            email,
+            company,
+            cart,
+            total,
+            createdAt: new Date().toISOString(),
+            source: "Servicios - cart.html",
+          };
+
+          // UI: sending state
+          submitBtn.disabled = true;
+          const prevText = submitBtn.textContent;
+          submitBtn.textContent = "Enviando...";
+
+          try {
+            // Send as x-www-form-urlencoded to avoid preflight issues
+            const body =
+              "payload=" + encodeURIComponent(JSON.stringify(payload));
+            const res = await fetch(EMAIL_ENDPOINT, {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/x-www-form-urlencoded;charset=UTF-8",
+              },
+              body,
+            });
+
+            if (!res.ok) throw new Error("Network response was not ok");
+
+            showToast("Pedido enviado con éxito. Te contactaremos pronto.");
+            localStorage.removeItem("cart");
+            renderCart();
+            form.reset();
+            setTimeout(() => {
+              window.location.href = "index.html";
+            }, 2200);
+          } catch (err) {
+            console.error("Error enviando pedido:", err);
+            showToast(
+              "Hubo un problema enviando tu pedido. Intenta nuevamente."
+            );
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = prevText;
+          }
+        });
+      renderCart();
+    </script>
+  </body>
+</html>
